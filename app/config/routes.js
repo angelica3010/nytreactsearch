@@ -25,4 +25,4 @@ module.exports = (
 		{/* if the user selects any other path..take them home */}
 		<IndexRoute component={Search} />
 	</Route>
-)
+);
