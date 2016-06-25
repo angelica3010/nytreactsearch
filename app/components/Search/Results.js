@@ -1,9 +1,10 @@
+// Results.js is a child component
 // Require the necessary packages and file(s)
 var React = require('react');
 var Router = require('react-router');
 
 // We made the NY API in this file, so we requiring it here
-var helpers = require('../../utils/helpers');
+var helpers = require('../../../utils/helpers.js');
 
 var Results = React.createClass({ 
 
@@ -17,12 +18,12 @@ var Results = React.createClass({
 
 // You can use the bind method to bound things together
 	handleClick: function(item, event){
-		console.log("CLICKED");
+		console.log("handleclick");
 		console.log(item);
 
-		helpers.postSaved(item.headline.main, item.pub_date, item.web_url)
+		helpers.postSaved(item.headlinemain, item.pubdate, item.url)
 			.then(function(data){
-				console.log(item.web_url);
+				console.log(item.url);
 			}.bind(this))
 
 	},
@@ -58,15 +59,15 @@ var Results = React.createClass({
 						  <li className="list-group-item" >
 								
 							<h3>
-							  	<span><em>{article.headline.main}</em></span>
+							  	<span><em>{article.headlinemain}</em></span>
 								<span className="btn-group pull-right" >
-									<a href={article.web_url} target="_blank"><button className="btn btn-default ">View Article</button></a>
+									<a href={article.url} target="_blank"><button className="btn btn-default ">View Article</button></a>
 
 									{/*By binding the button with the article we can save the article contents to our db*/}
 									<button className="btn btn-primary" onClick={this.handleClick.bind(this, article)}>Save</button>
 								</span> 
 							</h3>
-							<p>Date Published: {article.pub_date}</p>
+							<p>Date Published: {article.pubdate}</p>
 
 							
 						  </li>

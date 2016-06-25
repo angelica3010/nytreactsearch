@@ -31,7 +31,7 @@ var Query = React.createClass({
 	available as as 'property' on the child component*/
 
 	handleSubmit: function(){
-		console.log("CLICKED");
+		console.log("CLICK");
 		this.props.updateSearch(this.state.search, this.state.start, this.state.end);
 		return false;
 	},

@@ -3,7 +3,7 @@ var React = require('react');
 var Router = require('react-router')
 
 // we require the helpers file, which has the NYT API
-var helpers = require('../utils/helpers');
+var helpers = require('../../utils/helpers.js');
 
 // This is the main component. It includes the banner and form element.
 var Form = React.createClass({
@@ -19,9 +19,12 @@ var Form = React.createClass({
 		}
 	},
 
-
+	// componentWillMount is called before the render method is executed. It is important to note 
+	// that setting the state in this phase will not trigger a re-rendering.
+	// componentWillMount will initialize  a component
 	componentDidMount: function(){
 
+	// this will get the saved results
 		helpers.getSaved()
 			.then(function(articleData){
 				this.setState({
@@ -30,7 +33,6 @@ var Form = React.createClass({
 				console.log("saved results", articleData.data);
 			}.bind(this))
 	},
-	// we are accepting the value provided by the user and updating the value prop of the <input> component.
 	
 	handleClick: function(item, event){
 		console.log("click");
@@ -131,4 +133,4 @@ var Form = React.createClass({
 
 
 // Export the componen back for use in other files
-module.exports = Form;
+module.exports = Saved;

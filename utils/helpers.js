@@ -20,6 +20,7 @@ var APIKEY= "d78ea4cae99e46bfb2454850bf56de2eq"
 
 
 var helpers = {
+	// run the search query
 	runQuery: function(term, start, end){
 
 		// term is the search query (such as, ISIS, London)
@@ -49,31 +50,46 @@ var helpers = {
 		});
 	},
 
+	// get the saved results
+	getSaved: function(){
+		return axios.get('/api/saved').then(function(results){
+			console.log("axios results", results)
+			return results;
+		})
+	},
+	
+	// remmember to match the database schema and to remain consistent
+	postSaved: function(headlinemain, pubdate, url){
+		var newArticle = {headlinemain: headlinemain, pubdate: pubdate, url: url};
+		return axios.post('/api/saved', newArticle)
+			.then(function(results){
+				console.log("axios results", results._id);
+				return results._id;
+			})
 
-	getData: function(body){
-		return axios.get('/getData').then(function(res){
-			return res;
-		})
 	},
-	addData: function(title, date, url){
-		url = encodeURIComponent(url)
-		var dataUrl = '/addData/' + title +'/' + date +'/' + url;
-		return axios.post(dataUrl).then(function(res){
-			console.log(title)
-			return res;
+
+	// delete the saved results
+	deleteSaved: function(headlinemain, pubdate, url){
+
+		return axios.delete('/api/saved', {
+			params: {
+			    'headlinemain': headlinemain,
+			    'pubdate': pubdate,
+			    'url': url,
+			}
 		})
-	},
-	deleteData: function(id){
-		var urlQuery = 'deleteData/' + id;
-		return axios.post(urlQuery).then(function(res){
-			return res
+		.then(function(results){
+			console.log("axios results", results);
+			return results;
 		})
 	}
-};
 
-module.exports = helpers;
-
+}
 
 
-// We export the helpers function (which contains getGithubInfo)
+
+
+
+// We export the helpers function 
 module.exports = helpers;

@@ -6,7 +6,7 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 
 // Require Schema
-var Article = require('./server/model.js');
+var Article = require('./models/dbSchema.js');
 
 // Create Instance of Express
 var app = express();
@@ -43,14 +43,9 @@ db.once('open', function () {
 console.log('Mongoose connection successful.');
 });
 
-//Require Schemas
-// not sure if we need a separate file for Note, since we already have one in Article
-// var Note = require('./models/Note.js');
 
-var app = express();
+// Express Routes
 
-
-// Routes
 // Main Route
 app.get('/', function(req, res) {
   res.send('.public/index.html');
@@ -73,21 +68,42 @@ app.get('/api/saved', function (req, res) {
 });
 
 // Route to add an article to the saved list
-app.post('/api/saved', function(req, res))
+app.post('/api/saved', function(req, res) {
+
+	var newArticle = new Article(req.body);
+
+	console.log(req.body)
+
+	var headlinemain = req.body.headlinemain;
+	var pubdate = req.body.pubdate;
+	var url = req.body.url;
+
+	newArticle.save(function(err, doc){
+		if(err){
+			console.log(err);
+		} else {
+			res.send(doc._id);
+		}
+	});
+});
 
 
-// finish making the express routes
-//saved
-//post
-//delete
+app.delete('/api/saved/', function(req, res){
 
+	var url = req.param('url');
 
-React Routes
-<Route path ='/ component = {Main}>'
-
+	Article.find({"url": url}).remove().exec(function(err, data){
+		if(err){
+			console.log(err);
+		}
+		else {
+			res.send("Deleted!!");
+		}
+	});
+});
 
 
 app.listen(3000, function() {
-  console.log('App running on port 3006!');
+  console.log('App running on port 3000!');
 
 });
